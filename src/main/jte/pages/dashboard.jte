@@ -1,10 +1,12 @@
 @import org.springframework.security.core.GrantedAuthority
 @import java.util.Collection
+@import java.util.Map
 @import dev.danvega.CsrfHiddenInput
 
 @param String username = ""
 @param String email = null
 @param Collection<? extends GrantedAuthority> authorities = null
+@param Map<String, Object> attributes = null
 @param CsrfHiddenInput csrfHiddenInput
 
 @template.layout.default(
@@ -57,6 +59,12 @@ content = @`
                             <div>
                                 <p class="text-sm font-medium text-gray-500">Email</p>
                                 <p class="mt-1 text-lg text-gray-900">${email}</p>
+                            </div>
+                        @endif
+                        @if(attributes != null && attributes.containsKey("custom_claim"))
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Custom Claim</p>
+                                <p class="mt-1 text-lg text-gray-900">${attributes.get("custom_claim").toString()}</p>
                             </div>
                         @endif
                     </div>

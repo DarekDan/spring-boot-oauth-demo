@@ -22,12 +22,13 @@ public class DashboardController {
             model.addAttribute("username", oauth2User.getAttribute("name"));
             model.addAttribute("email", oauth2User.getAttribute("email"));
             model.addAttribute("authorities", oauth2User.getAuthorities());
+            model.addAttribute("attributes", oauth2User.getAttributes());
         }
 
         // Add CSRF token
         CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
         if (csrf != null) {
-            model.addAttribute("csrf", csrf);
+            model.addAttribute("csrfHiddenInput", new CsrfHiddenInput(csrf));
         }
 
         return "pages/dashboard";
