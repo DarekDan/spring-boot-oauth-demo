@@ -23,14 +23,14 @@ chmod +x start-services.sh
 **Authorization Service (Backend):**
 ```bash
 cd authorization-service
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 Wait for startup, note the H2 SA password in console.
 
 **Authentication Service (Frontend):**
 ```bash
 cd authentication-service
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 ### Using Docker
@@ -95,10 +95,10 @@ netstat -ano | findstr :8081
 ```bash
 # Clean and rebuild
 cd authorization-service
-./mvnw clean install
+mvn clean install
 
 cd ../authentication-service
-./mvnw clean install
+mvn clean install
 ```
 
 **Can't connect to authorization service:**

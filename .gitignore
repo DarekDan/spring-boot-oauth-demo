@@ -34,3 +34,13 @@ build/
 
 ### JTE ###
 /jte-classes/
+
+# Maven Wrapper (not used)
+mvnw
+mvnw.cmd
+.mvn/
+jte-classes/
+
+# Environment files (keep .env.example)
+.env
+.env.local

@@ -79,7 +79,7 @@ The `spring-boot-starter-liquibase` starter provides:
 ```bash
 # Start authorization service
 cd authorization-service
-./mvnw spring-boot:run
+mvn spring-boot:run
 
 # In another terminal, test API
 curl http://localhost:8081/api/authorization/roles/form:admin

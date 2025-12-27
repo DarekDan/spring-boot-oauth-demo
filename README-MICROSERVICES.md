@@ -99,13 +99,13 @@ This will:
 **Terminal 1 - Start Authorization Service:**
 ```bash
 cd authorization-service
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 **Terminal 2 - Start Authentication Service:**
 ```bash
 cd authentication-service
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 ### Option 3: Docker Compose
@@ -228,20 +228,20 @@ databaseChangeLog:
 **Authorization Service:**
 ```bash
 cd authorization-service
-./mvnw clean package
+mvn clean package
 ```
 
 **Authentication Service:**
 ```bash
 cd authentication-service
-./mvnw clean package
+mvn clean package
 ```
 
 ### Testing
 
 Each service has its own test suite:
 ```bash
-./mvnw test
+mvn test
 ```
 
 ## Production Deployment

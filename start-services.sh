@@ -16,7 +16,7 @@ fi
 echo ""
 echo "Starting Authorization Service on port 8081..."
 cd authorization-service || exit
-./mvnw spring-boot:run &
+mvn spring-boot:run &
 AUTHZ_PID=$!
 cd ..
 
@@ -27,7 +27,7 @@ sleep 15
 echo ""
 echo "Starting Authentication Service on port 8080..."
 cd authentication-service || exit
-./mvnw spring-boot:run &
+mvn spring-boot:run &
 AUTH_PID=$!
 cd ..
 

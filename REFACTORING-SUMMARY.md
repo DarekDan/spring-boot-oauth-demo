@@ -81,13 +81,13 @@ start-services.bat
 **Terminal 1 - Authorization Service:**
 ```bash
 cd authorization-service
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 **Terminal 2 - Authentication Service:**
 ```bash
 cd authentication-service
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 ### Option 3: Docker Compose
@@ -231,7 +231,7 @@ Authentication service connects to authorization service via:
 
 ### Build Issues
 - Ensure Java 23 is installed
-- Run `./mvnw clean install` in each service directory
+- Run `mvn clean install` in each service directory
 - Check for port conflicts (8080, 8081)
 
 ### Runtime Issues  

@@ -18,7 +18,7 @@ if errorlevel 1 (
 echo.
 echo Starting Authorization Service on port 8081...
 cd authorization-service
-start "Authorization Service" cmd /k "mvnw.cmd spring-boot:run"
+start "Authorization Service" cmd /k "mvn spring-boot:run"
 cd ..
 
 REM Wait a bit for authorization service to start
@@ -27,7 +27,7 @@ timeout /t 10 /nobreak >nul
 echo.
 echo Starting Authentication Service on port 8080...
 cd authentication-service
-start "Authentication Service" cmd /k "mvnw.cmd spring-boot:run"
+start "Authentication Service" cmd /k "mvn spring-boot:run"
 cd ..
 
 echo.
