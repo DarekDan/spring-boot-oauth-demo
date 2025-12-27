@@ -1,6 +1,11 @@
 spring:
   application:
     name: jte-login
+  output:
+    ansi:
+      enabled: always
+  banner:
+    charset: UTF-8
 
 # OAuth2 configuration is handled programmatically in OAuth2ClientConfig.java
 # Set environment variables GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
