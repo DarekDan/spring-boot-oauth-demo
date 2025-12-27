@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/001-create-roles-schema.yaml
+  - include:
+      file: db/changelog/002-seed-roles-data.yaml
+  - include:
+      file: db/changelog/003-create-readonly-user.yaml

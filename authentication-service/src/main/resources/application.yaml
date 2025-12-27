@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: authentication-service
+  output:
+    ansi:
+      enabled: always
+  banner:
+    charset: UTF-8
+
+# OAuth2 configuration is handled programmatically in OAuth2ClientConfig.java
+# Set environment variables GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
+# to enable OAuth2 login providers
+
+gg:
+  jte:
+    developmentMode: true
+
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+
+# Authorization service endpoint
+authorization:
+  service:
+    url: http://localhost:8081
+
+logging:
+  level:
+    dev.danvega.auth: INFO
+    org:
+      springframework:
+        security: ERROR #change to DEBUG or INFO for more information about spring security
+        cloud:
+          gateway: DEBUG
+  charset:
+    console: UTF-8
+
+# Actuator endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
