@@ -34,23 +34,23 @@ A comprehensive Spring Boot application demonstrating modern authentication patt
 │                              Spring Boot Application                        │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
-│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐          │
-│  │   Controllers   │    │    Security     │    │     OAuth2      │          │
-│  │                 │    │   Filter Chain  │    │   Client Config │          │
-│  │ - LoginController    │                 │    │                 │          │
-│  │ - DashboardController│ - Form Login    │    │ - Google        │          │
-│  │                 │    │ - OAuth2 Login  │    │ - GitHub        │          │
-│  └────────┬────────┘    └────────┬────────┘    └────────┬────────┘          │
-│           │                      │                      │                   │
-│           ▼                      ▼                      ▼                   │
+│  ┌──────────────────────┐    ┌─────────────────┐    ┌─────────────────┐     │
+│  │   Controllers        │    │    Security     │    │     OAuth2      │     │
+│  │                      │    │   Filter Chain  │    │   Client Config │     │
+│  │ - LoginController    │    │                 │    │                 │     │
+│  │ - DashboardController│    │ - Form Login    │    │ - Google        │     │
+│  │                      │    │ - OAuth2 Login  │    │ - GitHub        │     │
+│  └────────┬─────────────┘    └────────┬────────┘    └────────┬────────┘     │
+│           │                           │                      │              │
+│           ▼                           ▼                      ▼              │
 │  ┌─────────────────────────────────────────────────────────────────┐        │
 │  │                        Service Layer                            │        │
-│  │  ┌─────────────────┐  ┌─────────────────────────────────────┐   │        │
-│  │  │   RoleService   │  │ OAuth2ClientConditionService        │   │        │
-│  │  │                 │  │                                     │   │        │
-│  │  │ - getRolesForUser  │ - isGoogleEnabled()                 │   │        │
-│  │  │ - buildUserIdentifier - isGithubEnabled()                │   │        │
-│  │  └────────┬────────┘  └─────────────────────────────────────┘   │        │
+│  │  ┌───────────────────────┐  ┌──────────────────────────────────┐│        │
+│  │  │   RoleService         │  │ OAuth2ClientConditionService     ││        │
+│  │  │                       │  │                                  ││        │
+│  │  │ - getRolesForUser     │  │ - isGoogleEnabled()              ││        │
+│  │  │ - buildUserIdentifier │  │ - isGithubEnabled()              ││        │
+│  │  └────────┬──────────────┘  └──────────────────────────────────┘│        │
 │  └───────────┼─────────────────────────────────────────────────────┘        │
 │              │                                                              │
 │              ▼                                                              │
@@ -65,11 +65,11 @@ A comprehensive Spring Boot application demonstrating modern authentication patt
 │  ┌─────────────────────────────────────────────────────────────────┐        │
 │  │                    H2 In-Memory Database                        │        │
 │  │                    (Managed by Liquibase)                       │        │
-│  │  ┌──────────────┐  ┌──────────────────────────┐                 │        │
-│  │  │    ROLES     │  │    ROLE_ASSIGNMENTS      │                 │        │
-│  │  │              │  │                          │                 │        │
-│  │  │ id | name    │  │ id | user_identifier | role_id             │        │
-│  │  └──────────────┘  └──────────────────────────┘                 │        │
+│  │  ┌──────────────┐  ┌────────────────────────────────┐           │        │
+│  │  │    ROLES     │  │    ROLE_ASSIGNMENTS            │           │        │
+│  │  │              │  │                                │           │        │
+│  │  │ id | name    │  │ id | user_identifier | role_id │           │        │
+│  │  └──────────────┘  └────────────────────────────────┘           │        │
 │  └─────────────────────────────────────────────────────────────────┘        │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -528,16 +528,16 @@ ${content}
 │           ROLES             │
 ├─────────────────────────────┤
 │ id     : BIGINT (PK)        │
-│ name   : VARCHAR(50) (UK)   │  ◄──────┐
-└─────────────────────────────┘         │
-                                        │ FK
-┌─────────────────────────────┐         │
-│      ROLE_ASSIGNMENTS       │         │
-├─────────────────────────────┤         │
-│ id              : BIGINT (PK)         │
-│ user_identifier : VARCHAR(255)        │
-│ role_id         : BIGINT (FK) ────────┘
-└─────────────────────────────┘
+│ name   : VARCHAR(50) (UK)   │  ◄────────┐
+└─────────────────────────────┘           │
+                                          │ FK
+┌────────────────────────────────┐        │
+│      ROLE_ASSIGNMENTS          │        │
+├────────────────────────────────┤        │
+│ id              : BIGINT (PK)  │        │
+│ user_identifier : VARCHAR(255) │        │
+│ role_id         : BIGINT (FK) ──────────┘
+└────────────────────────────────┘
 ```
 
 ### Liquibase Changesets
