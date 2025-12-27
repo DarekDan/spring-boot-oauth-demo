@@ -3,8 +3,10 @@ package dev.danvega.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 
 import javax.sql.DataSource;
@@ -24,8 +26,13 @@ import java.util.Base64;
  * <li>After startup, SA requires the random password</li>
  * <li>H2 Console users must use the displayed password</li>
  * </ul>
+ * 
+ * <p>
+ * This configuration is disabled during tests (profile "test").
  */
 @Configuration
+@Profile("!test")
+@ConditionalOnProperty(name = "spring.h2.console.enabled", havingValue = "true", matchIfMissing = false)
 public class H2DatabaseConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(H2DatabaseConfig.class);
