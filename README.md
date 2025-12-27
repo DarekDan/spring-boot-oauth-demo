@@ -359,14 +359,29 @@ server:
 
 #### H2 Console Access Control
 
-The H2 console has role-based access control:
+The H2 console has role-based access control and uses a **randomly generated password** for security:
 
 | Role | Access Level | Connection Credentials |
 |------|--------------|------------------------|
-| `ROLE_ADMIN` | **Full read/write** | Username: `sa`, Password: (empty) |
+| `ROLE_ADMIN` | **Full read/write** | Username: `sa`, Password: **(shown in console at startup)** |
 | `ROLE_POWER_USER` | **Read-only** | Username: `readonly`, Password: `readonly` |
 
-> **Important**: The read-only enforcement is done at the database level. POWER_USER must connect using the `readonly` credentials to ensure they cannot modify data. If they use `sa` credentials, they would have write access.
+> **Security Note**: The `sa` user password is randomly generated on each application startup. Check the application console output for the current password:
+>
+> ```
+> ╔════════════════════════════════════════════════════════════════╗
+> ║                    H2 DATABASE CREDENTIALS                     ║
+> ╠════════════════════════════════════════════════════════════════╣
+> ║  JDBC URL:  jdbc:h2:mem:rolesdb;DB_CLOSE_DELAY=-1              ║
+> ║  Username:  sa                                                 ║
+> ║  Password:  <randomly-generated-password>                      ║
+> ╠════════════════════════════════════════════════════════════════╣
+> ║  H2 Console: http://localhost:8080/h2-console                  ║
+> ║  Note: Password changes on each application restart            ║
+> ╚════════════════════════════════════════════════════════════════╝
+> ```
+
+> **Important**: The read-only enforcement is done at the database level. POWER_USER must connect using the `readonly` credentials to ensure they cannot modify data.
 
 ### OAuth2 Endpoints (Auto-configured)
 

@@ -7,19 +7,20 @@ spring:
   banner:
     charset: UTF-8
   # Database configuration
+  # NOTE: Password is randomly generated at startup - check console output for credentials
   datasource:
     url: jdbc:h2:mem:rolesdb;DB_CLOSE_DELAY=-1
     driver-class-name: org.h2.Driver
     username: sa
-    password:
+    # Password is set programmatically by H2DatabaseConfig with a random value
   h2:
     console:
       enabled: true
       path: /h2-console
       # H2 Console Access Control:
       # - Only ROLE_ADMIN and ROLE_POWER_USER can access /h2-console
-      # - ADMIN users: Connect with username 'sa' (no password) for full read/write access
-      # - POWER_USER users: Connect with username 'readonly', password 'readonly' for read-only access
+      # - ADMIN users: Use 'sa' with the randomly generated password (shown in console at startup)
+      # - POWER_USER users: Use 'readonly' / 'readonly' for read-only access
   jpa:
     hibernate:
       ddl-auto: none
