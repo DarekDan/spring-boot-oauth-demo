@@ -6,6 +6,20 @@ spring:
       enabled: always
   banner:
     charset: UTF-8
+  # Spring Cloud Gateway Server Web MVC configuration
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: h2-console-proxy
+              uri: ${authorization.service.url}
+              predicates:
+                - Path=/h2-console/**
+              filters:
+                - AddRequestHeader=X-Forwarded-Proto, http
+                - AddRequestHeader=X-Forwarded-Host, localhost:8080
+                - AddRequestHeader=X-Forwarded-Prefix, /h2-console
 
 # OAuth2 configuration is handled programmatically in OAuth2ClientConfig.java
 # Set environment variables GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET

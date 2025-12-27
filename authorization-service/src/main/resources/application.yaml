@@ -19,18 +19,24 @@ spring:
       path: /h2-console
       settings:
         web-allow-others: false
+        trace: false
       # H2 Console Access:
       # - ADMIN: Use 'sa' with the random password shown in console at startup
       # - POWER_USER: Use 'readonly' / 'readonly' for read-only access
+      # - NOTE: Direct access on port 8081 should be blocked in production
+      # - Use proxied access via authentication service on port 8080
   jpa:
     hibernate:
       ddl-auto: none
     show-sql: true
   liquibase:
+    enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
 server:
   port: 8081
+  # Make this service internal-only
+  address: localhost
   servlet:
     encoding:
       charset: UTF-8
@@ -39,6 +45,8 @@ server:
 logging:
   level:
     dev.danvega.authz: INFO
+    liquibase: DEBUG
+    org.springframework.boot.autoconfigure.liquibase: DEBUG
   charset:
     console: UTF-8
 
