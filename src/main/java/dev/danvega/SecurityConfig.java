@@ -54,7 +54,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/dashboard", true)
+                        .defaultSuccessUrl("/dashboard", false) // false = use saved request if available
                         .permitAll())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/")
@@ -68,7 +68,7 @@ public class SecurityConfig {
         if (hasOAuth2Providers()) {
             http.oauth2Login(oauth2 -> oauth2
                     .loginPage("/login")
-                    .defaultSuccessUrl("/dashboard", true)
+                    .defaultSuccessUrl("/dashboard", false) // false = use saved request if available
                     .userInfoEndpoint(userInfo -> userInfo
                             .oidcUserService(oidcUserService())));
         }

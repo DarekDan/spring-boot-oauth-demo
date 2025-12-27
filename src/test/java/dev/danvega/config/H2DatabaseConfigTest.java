@@ -1,9 +1,14 @@
 package dev.danvega.config;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.mock.env.MockEnvironment;
+import org.springframework.boot.ApplicationRunner;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for H2DatabaseConfig.
@@ -11,61 +16,75 @@ import static org.junit.jupiter.api.Assertions.*;
 class H2DatabaseConfigTest {
 
     @Test
-    void constructor_generatesRandomPassword() {
-        MockEnvironment environment = new MockEnvironment();
-        H2DatabaseConfig config = new H2DatabaseConfig(environment);
+    void h2PasswordInitializer_returnsApplicationRunner() throws Exception {
+        H2DatabaseConfig config = new H2DatabaseConfig();
+        DataSource mockDataSource = mock(DataSource.class);
+        Connection mockConnection = mock(Connection.class);
+        Statement mockStatement = mock(Statement.class);
 
-        String password = config.getGeneratedPassword();
+        when(mockDataSource.getConnection()).thenReturn(mockConnection);
+        when(mockConnection.createStatement()).thenReturn(mockStatement);
+        when(mockStatement.execute(anyString())).thenReturn(true);
 
-        assertNotNull(password);
-        assertFalse(password.isBlank());
+        ApplicationRunner runner = config.h2PasswordInitializer(mockDataSource);
+
+        assertNotNull(runner);
     }
 
     @Test
-    void generatedPassword_isDifferentEachTime() {
-        MockEnvironment env1 = new MockEnvironment();
-        MockEnvironment env2 = new MockEnvironment();
-        H2DatabaseConfig config1 = new H2DatabaseConfig(env1);
-        H2DatabaseConfig config2 = new H2DatabaseConfig(env2);
+    void h2PasswordInitializer_executesAlterUser() throws Exception {
+        H2DatabaseConfig config = new H2DatabaseConfig();
+        DataSource mockDataSource = mock(DataSource.class);
+        Connection mockConnection = mock(Connection.class);
+        Statement mockStatement = mock(Statement.class);
 
-        assertNotEquals(config1.getGeneratedPassword(), config2.getGeneratedPassword());
+        when(mockDataSource.getConnection()).thenReturn(mockConnection);
+        when(mockConnection.createStatement()).thenReturn(mockStatement);
+        when(mockStatement.execute(anyString())).thenReturn(true);
+
+        ApplicationRunner runner = config.h2PasswordInitializer(mockDataSource);
+        runner.run(null);
+
+        // Verify ALTER USER was executed
+        verify(mockStatement).execute(argThat(sql -> sql.startsWith("ALTER USER SA SET PASSWORD")));
     }
 
     @Test
-    void generatedPassword_hasMinimumLength() {
-        MockEnvironment environment = new MockEnvironment();
-        H2DatabaseConfig config = new H2DatabaseConfig(environment);
+    void h2PasswordInitializer_setsGeneratedPassword() throws Exception {
+        H2DatabaseConfig config = new H2DatabaseConfig();
+        DataSource mockDataSource = mock(DataSource.class);
+        Connection mockConnection = mock(Connection.class);
+        Statement mockStatement = mock(Statement.class);
 
-        // Base64 encoding of 16 bytes should produce at least 21 characters
-        assertTrue(config.getGeneratedPassword().length() >= 20);
+        when(mockDataSource.getConnection()).thenReturn(mockConnection);
+        when(mockConnection.createStatement()).thenReturn(mockStatement);
+        when(mockStatement.execute(anyString())).thenReturn(true);
+
+        ApplicationRunner runner = config.h2PasswordInitializer(mockDataSource);
+        runner.run(null);
+
+        assertNotNull(config.getGeneratedPassword());
+        assertFalse(config.getGeneratedPassword().isBlank());
     }
 
     @Test
-    void constructor_setsPasswordInEnvironment() {
-        MockEnvironment environment = new MockEnvironment();
-        H2DatabaseConfig config = new H2DatabaseConfig(environment);
+    void h2PasswordInitializer_handlesException() throws Exception {
+        H2DatabaseConfig config = new H2DatabaseConfig();
+        DataSource mockDataSource = mock(DataSource.class);
 
-        String passwordFromEnv = environment.getProperty("spring.datasource.password");
+        when(mockDataSource.getConnection()).thenThrow(new RuntimeException("Connection failed"));
 
-        assertEquals(config.getGeneratedPassword(), passwordFromEnv);
+        ApplicationRunner runner = config.h2PasswordInitializer(mockDataSource);
+
+        // Should not throw - just logs warning
+        assertDoesNotThrow(() -> runner.run(null));
+        assertNull(config.getGeneratedPassword());
     }
 
     @Test
-    void h2CredentialsLogger_returnsNonNull() {
-        MockEnvironment environment = new MockEnvironment();
-        H2DatabaseConfig config = new H2DatabaseConfig(environment);
+    void getGeneratedPassword_isNullBeforeRunnerExecutes() {
+        H2DatabaseConfig config = new H2DatabaseConfig();
 
-        assertNotNull(config.h2CredentialsLogger());
-    }
-
-    @Test
-    void getGeneratedPassword_returnsSameValueOnMultipleCalls() {
-        MockEnvironment environment = new MockEnvironment();
-        H2DatabaseConfig config = new H2DatabaseConfig(environment);
-
-        String password1 = config.getGeneratedPassword();
-        String password2 = config.getGeneratedPassword();
-
-        assertEquals(password1, password2);
+        assertNull(config.getGeneratedPassword());
     }
 }

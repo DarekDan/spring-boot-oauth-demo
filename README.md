@@ -359,29 +359,33 @@ server:
 
 #### H2 Console Access Control
 
-The H2 console has role-based access control and uses a **randomly generated password** for security:
+The H2 console is protected by **Spring Security** and uses a **randomly generated password** for the SA user:
 
 | Role | Access Level | Connection Credentials |
 |------|--------------|------------------------|
-| `ROLE_ADMIN` | **Full read/write** | Username: `sa`, Password: **(shown in console at startup)** |
+| `ROLE_ADMIN` | **Full read/write** | Username: `sa`, Password: *(see console output)* |
 | `ROLE_POWER_USER` | **Read-only** | Username: `readonly`, Password: `readonly` |
 
-> **Security Note**: The `sa` user password is randomly generated on each application startup. Check the application console output for the current password:
+> **H2 Console Connection**:
+> - **Console URL**: http://localhost:8080/h2-console
+> - **JDBC URL**: `jdbc:h2:mem:rolesdb`
+> - **Username**: `sa`
+> - **Password**: *(check application console output at startup)*
 >
 > ```
 > ╔════════════════════════════════════════════════════════════════╗
 > ║                    H2 DATABASE CREDENTIALS                     ║
 > ╠════════════════════════════════════════════════════════════════╣
-> ║  JDBC URL:  jdbc:h2:mem:rolesdb;DB_CLOSE_DELAY=-1              ║
-> ║  Username:  sa                                                 ║
-> ║  Password:  <randomly-generated-password>                      ║
+> ║  Console URL:  http://localhost:8080/h2-console                ║
+> ║  JDBC URL:     jdbc:h2:mem:rolesdb                             ║
+> ║  Username:     sa                                              ║
+> ║  Password:     <random-16-char-password>                       ║
 > ╠════════════════════════════════════════════════════════════════╣
-> ║  H2 Console: http://localhost:8080/h2-console                  ║
 > ║  Note: Password changes on each application restart            ║
 > ╚════════════════════════════════════════════════════════════════╝
 > ```
 
-> **Important**: The read-only enforcement is done at the database level. POWER_USER must connect using the `readonly` credentials to ensure they cannot modify data.
+> **Security**: The SA password is randomly generated after Liquibase migrations complete. Access to the H2 console page also requires Spring Security authentication (ADMIN/POWER_USER role).
 
 ### OAuth2 Endpoints (Auto-configured)
 

@@ -6,21 +6,21 @@ spring:
       enabled: always
   banner:
     charset: UTF-8
-  # Database configuration
-  # NOTE: Password is randomly generated at startup - check console output for credentials
+  # Database configuration - H2 in-memory database
+  # SA password is randomly generated after Liquibase runs - check console output
   datasource:
     url: jdbc:h2:mem:rolesdb;DB_CLOSE_DELAY=-1
     driver-class-name: org.h2.Driver
     username: sa
-    # Password is set programmatically by H2DatabaseConfig with a random value
+    password:
   h2:
     console:
       enabled: true
       path: /h2-console
       # H2 Console Access Control:
-      # - Only ROLE_ADMIN and ROLE_POWER_USER can access /h2-console
-      # - ADMIN users: Use 'sa' with the randomly generated password (shown in console at startup)
-      # - POWER_USER users: Use 'readonly' / 'readonly' for read-only access
+      # - Spring Security: Only ROLE_ADMIN and ROLE_POWER_USER can access /h2-console
+      # - ADMIN: Use 'sa' with the random password shown in console at startup
+      # - POWER_USER: Use 'readonly' / 'readonly' for read-only access
   jpa:
     hibernate:
       ddl-auto: none
