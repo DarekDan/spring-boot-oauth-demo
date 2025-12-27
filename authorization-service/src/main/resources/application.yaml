@@ -45,8 +45,8 @@ server:
 logging:
   level:
     dev.danvega.authz: INFO
-    liquibase: DEBUG
-    org.springframework.boot.autoconfigure.liquibase: DEBUG
+    liquibase: INFO
+    org.springframework.boot.autoconfigure.liquibase: INFO
   charset:
     console: UTF-8
 
