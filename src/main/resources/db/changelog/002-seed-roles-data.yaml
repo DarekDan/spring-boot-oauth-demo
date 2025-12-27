@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: seed-roles
+      author: gemini
+      comment: Initial role definitions
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: ROLE_USER
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: ROLE_ADMIN
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: ROLE_POWER_USER
+
+  - changeSet:
+      id: seed-role-assignments
+      author: gemini
+      comment: Initial role assignments for existing users
+      changes:
+        # admin user for form login gets ROLE_ADMIN
+        - insert:
+            tableName: role_assignments
+            columns:
+              - column:
+                  name: user_identifier
+                  value: "form:admin"
+              - column:
+                  name: role_id
+                  valueComputed: "(SELECT id FROM roles WHERE name = 'ROLE_ADMIN')"
+        # Google user ddanielewski@gmail.com gets ROLE_POWER_USER
+        - insert:
+            tableName: role_assignments
+            columns:
+              - column:
+                  name: user_identifier
+                  value: "google:ddanielewski@gmail.com"
+              - column:
+                  name: role_id
+                  valueComputed: "(SELECT id FROM roles WHERE name = 'ROLE_POWER_USER')"

@@ -6,6 +6,22 @@ spring:
       enabled: always
   banner:
     charset: UTF-8
+  # Database configuration
+  datasource:
+    url: jdbc:h2:mem:rolesdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
 
 # OAuth2 configuration is handled programmatically in OAuth2ClientConfig.java
 # Set environment variables GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
