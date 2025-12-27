@@ -349,13 +349,24 @@ server:
 | `GET` | `/login` | Login page (form + OAuth2 buttons) |
 | `POST` | `/login` | Form login submission |
 | `GET` | `/error` | Error page |
-| `GET` | `/h2-console/**` | H2 Database Console |
 
 ### Protected Endpoints
 
 | Method | Path | Description | Required Auth |
 |--------|------|-------------|---------------|
 | `GET` | `/dashboard` | User dashboard | Any authenticated user |
+| `GET` | `/h2-console/**` | H2 Database Console | `ROLE_ADMIN` or `ROLE_POWER_USER` |
+
+#### H2 Console Access Control
+
+The H2 console has role-based access control:
+
+| Role | Access Level | Connection Credentials |
+|------|--------------|------------------------|
+| `ROLE_ADMIN` | **Full read/write** | Username: `sa`, Password: (empty) |
+| `ROLE_POWER_USER` | **Read-only** | Username: `readonly`, Password: `readonly` |
+
+> **Important**: The read-only enforcement is done at the database level. POWER_USER must connect using the `readonly` credentials to ensure they cannot modify data. If they use `sa` credentials, they would have write access.
 
 ### OAuth2 Endpoints (Auto-configured)
 

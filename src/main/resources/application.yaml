@@ -16,6 +16,10 @@ spring:
     console:
       enabled: true
       path: /h2-console
+      # H2 Console Access Control:
+      # - Only ROLE_ADMIN and ROLE_POWER_USER can access /h2-console
+      # - ADMIN users: Connect with username 'sa' (no password) for full read/write access
+      # - POWER_USER users: Connect with username 'readonly', password 'readonly' for read-only access
   jpa:
     hibernate:
       ddl-auto: none

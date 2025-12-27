@@ -48,7 +48,9 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/", "/login", "/error").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll() // Allow H2 console access
+                        // H2 console access: ADMIN has full access, POWER_USER can access (read-only
+                        // enforced via connection)
+                        .requestMatchers("/h2-console/**").hasAnyRole("ADMIN", "POWER_USER")
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
