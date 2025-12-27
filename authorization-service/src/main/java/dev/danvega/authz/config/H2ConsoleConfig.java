@@ -24,6 +24,10 @@ public class H2ConsoleConfig {
         registration.addUrlMappings("/h2-console/*");
         registration.setLoadOnStartup(1);
         
+        // Allow H2 console to work behind a proxy/gateway
+        // webAllowOthers=true allows connections from the gateway
+        registration.addInitParameter("webAllowOthers", "true");
+        
         return registration;
     }
 }

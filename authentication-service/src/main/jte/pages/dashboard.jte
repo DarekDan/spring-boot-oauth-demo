@@ -77,19 +77,20 @@ content = @`
                             <h3 class="text-sm font-medium text-indigo-800">H2 Database Console</h3>
                             <p class="mt-1 text-sm text-indigo-700">Access the authorization service database to view roles and assignments.</p>
                             <div class="mt-3 flex gap-3">
-                                <a href="/h2-console" target="_blank"
-                                   class="inline-flex items-center px-3 py-2 text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
-                                    Open H2 Console (Proxied)
-                                </a>
                                 <a href="http://localhost:8081/h2-console" target="_blank"
+                                   class="inline-flex items-center px-3 py-2 text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                                    ⭐ Open H2 Console (Recommended)
+                                </a>
+                                <a href="/h2-console" target="_blank"
                                    class="inline-flex items-center px-3 py-2 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-white hover:bg-indigo-50">
-                                    Direct Access (Dev)
+                                    Proxied Access (May Redirect)
                                 </a>
                             </div>
                             <div class="mt-3 text-xs text-indigo-700">
+                                <p class="font-semibold mb-1">💡 Tip: Use the recommended direct link for best experience</p>
                                 <p><strong>JDBC URL:</strong> jdbc:h2:mem:rolesdb</p>
                                 <p><strong>Username:</strong> sa</p>
-                                <p><strong>Password:</strong> Check authorization service console logs</p>
+                                <p><strong>Password:</strong> Check authorization service console logs (changes on restart)</p>
                             </div>
                         </div>
                     </div>
